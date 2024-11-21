@@ -8,18 +8,17 @@ The group members are responsible for enforcing this Code of Conduct. All report
 ## The DSCI 522 Group 33 Code of Conduct
 We are dedicated to providing a welcoming and supportive environment for all people, regardless of background or identity. As such, we do not tolerate behaviour that is disrespectful to our teachers or learners or that excludes, intimidates, or causes discomfort to others. We do not tolerate discrimination or harassment based on characteristics that include, but are not limited to, gender identity and expression, sexual orientation, disability, physical appearance, body size, citizenship, nationality, ethnic or social origin, pregnancy, familial status, veteran status, genetic information, religion or belief (or lack thereof), membership of a national minority, property, age, education, socio-economic status, technical choices, and experience level.
 
-Everyone participating in DSCI 522 group 33 activities is required to conform to the Code of Conduct. This Code of Conduct applies to all spaces managed by DSCI 522 group 33 including, but not limited to, group meetings, slack communication, and online forums such as GitHub. The DSCI 522 group 33 teaching team are expected to assist with the enforcement of the Code of Conduct.
+Everyone participating in DSCI 522 group 33 activities is required to conform to the Code of Conduct. This Code of Conduct applies to all spaces managed by DSCI 522 group 33 including, but not limited to, group meetings, slack communication, and online forums such as GitHub. 
 
 ### Expected Behavior
 
-All participants in our events and communications are expected to show respect and courtesy to others. All interactions should be professional regardless of platform: either online or in-person. In order to foster a positive and professional learning environment we encourage the following kinds of behaviours in all DSCI 522 group 3 events and platforms:
+All participants in our events and communications are expected to show respect and courtesy to others. All interactions should be professional regardless of platform: either online or in-person. In order to foster a positive and professional learning environment we encourage the following kinds of behaviours in all DSCI 522 group 33 projects and platforms:
 
 - Use welcoming and inclusive language
 - Be respectful of different viewpoints and experiences
 - Gracefully accept constructive criticism
 - Focus on what is best for the community
 - Show courtesy and respect towards other community members
-
 
 ### Unacceptable Behavior
 
