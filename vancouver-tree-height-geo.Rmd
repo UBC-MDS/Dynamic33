@@ -1,0 +1,172 @@
+---
+title: "Vancouver Tree Height Geography"
+author: "DSCI 522, Group 33"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Vancouver Tree Height Geography
+
+## Summary
+
+Our group was interested in answering the question, "do tree heights vary significantly from neighbourhood to neighbourhood in Vancouver?"
+
+## Introduction
+
+The City of Vancouver Open Data Portal has .... all this data
+
+one of these is street trees: <https://opendata.vancouver.ca/explore/dataset/street-trees/information/?disjunctive.species_name&disjunctive.common_name&disjunctive.on_street&disjunctive.neighbourhood_name>
+
+\^ also put in references
+
+expand on what was written in the summary
+
+## Methods and Results
+
+### Loading Required Packages
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(knitr)
+```
+
+### Loading the Data
+
+```{r}
+trees <- read_csv2("street-trees.csv")
+head(trees)
+```
+
+### Cleaning the Data
+
+We are only interested in neighbourhood names and tree heights, so we should make sure there are no missing values in these columns
+
+```{r}
+str(trees) # maybe we don't use this
+# look at NEIGHBOURHOOD_NAME, HEIGHT_RANGE, HEIGHT_RANGE_ID
+```
+
+### Exploratory Data Analysis
+
+The columns of interest are:
+
+1\. `NEIGHBOURHOOD_NAME` (explanatory/treatment variable) - A string representing the neighbourhood the tree is in
+
+2\. Tree height data (the outcome/response variable) is represented in two columns, in two different formats:
+
+\- `HEIGHT_RANGE` - a string representing tree heights (categorical levels) in buckets of 10ft, e.g. `0' - 10'`, `10' - 20'`, etc.
+
+\- `HEIGHT_RANGE_ID` - a numeric column (integers) representing levels of the above strings
+
+First, we should examine the levels of the two available versions of the treatment categorical variable we could choose one that will simplify our subsequent analysis.
+
+Based on the data, it looks like there should be a one-to-one correspondence between levels of `HEIGHT_RANGE` and `HEIGHT_RANGE_ID`, but we should confirm this. To do this, we can look at all unique combinations of the two variables. If they properly correspond (there are no issues with the data), we should see only one row for each.
+
+```{r}
+unique_combinations <- trees |> 
+  distinct(HEIGHT_RANGE, HEIGHT_RANGE_ID) |> 
+  arrange(HEIGHT_RANGE_ID)
+
+unique_combinations
+```
+
+It looks like there is proper correspondence between levels of these two variables. Since the levels of `HEIGHT_RANGE_ID` are simpler and shorter, we will use this variable, which should make our plots easier to display.
+
+Now we can select only the treatment and response variable columns and convert them to type `factor`. Then, we can display the con
+
+```{r}
+trees <- trees |> 
+  select(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID) |> 
+  mutate(across(everything(), as.factor))
+
+trees
+```
+
+Now, the `trees` tibble contains a row per tree, with only the columns `HEIGHT_RANGE` and `HEIGHT_RANGE_ID`.
+
+Generate a contingency table and print it using `kable()`
+
+NOTE TO SELF: add figure captions and for the one below, refer to the tibble above
+
+```{r}
+cont_table <- trees |> 
+  tabyl(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID)
+
+cont_table |> 
+  kable()
+```
+
+In order to better understand patterns in this data, we can visualize the above contingency table as a 2-dimensional histogram (a.k.a heat map):
+
+```{r}
+heatmap_data <- cont_table |> 
+  pivot_longer(
+    cols = -NEIGHBOURHOOD_NAME,
+    names_to = "HEIGHT_RANGE_ID",
+    values_to = "Tree_Count"
+  ) |> 
+  mutate(
+    HEIGHT_RANGE_ID = factor(HEIGHT_RANGE_ID, levels = as.character(0:10))
+  )
+
+ggplot(heatmap_data, aes(x = HEIGHT_RANGE_ID, y = NEIGHBOURHOOD_NAME, fill = Tree_Count)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(
+    title = "Tree Distribution by Neighbourhood and Height Range",
+    x = "Height Range",
+    y = "Neighbourhood",
+    fill = "Tree Count"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+From the plot, it looks like there may be some significant differences in tree heights across neighbourhoods. In particular:
+
+-   sd
+
+-   sd
+
+### Statistical Test
+
+is it statistically significant?
+
+#### Choosing the Appropriate Test
+
+Because we are dealing with two categorical variables each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate
+
+The Chi-squared test makes the following assumptions:
+
+1.  The observations are independent.
+2.  The expected counts are sufficiently large (greater than 5 is the typical standard).
+
+For assumption 1, . For assumption 2, .
+
+Because these assumptions do not appear to be violated, it is safe to proceed with a Chi-squared test of independence.
+
+#### Performing Chi-squared Test of Independence
+
+We will perform the test and store the results in `chisq_results`
+
+```{r}
+chisq_results <- chisq.test(cont_table, correct = FALSE)
+
+chisq_results
+```
+
+sd
+
+## Discussion
+
+sd
+
+## References
+
+sd
