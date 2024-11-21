@@ -39,7 +39,7 @@ library(knitr)
 ### Loading the Data
 
 ```{r}
-trees <- read_csv2("street-trees.csv")
+trees <- read_csv2("data/street-trees.csv")
 head(trees)
 ```
 
@@ -73,7 +73,9 @@ unique_combinations <- trees |>
   distinct(HEIGHT_RANGE, HEIGHT_RANGE_ID) |> 
   arrange(HEIGHT_RANGE_ID)
 
-unique_combinations
+unique_combinations |> kable()
+#TODO: add figure titles to this (in the kable code) and others
+
 ```
 
 It looks like there is proper correspondence between levels of these two variables. Since the levels of `HEIGHT_RANGE_ID` are simpler and shorter, we will use this variable, which should make our plots easier to display.
@@ -81,11 +83,11 @@ It looks like there is proper correspondence between levels of these two variabl
 Now we can select only the treatment and response variable columns and convert them to type `factor`. Then, we can display the con
 
 ```{r}
-trees <- trees |> 
+trees_subset <- trees |> 
   select(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID) |> 
   mutate(across(everything(), as.factor))
 
-trees
+trees_subset
 ```
 
 Now, the `trees` tibble contains a row per tree, with only the columns `HEIGHT_RANGE` and `HEIGHT_RANGE_ID`.
@@ -95,7 +97,7 @@ Generate a contingency table and print it using `kable()`
 NOTE TO SELF: add figure captions and for the one below, refer to the tibble above
 
 ```{r}
-cont_table <- trees |> 
+cont_table <- trees_subset |> 
   tabyl(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID)
 
 cont_table |> 
@@ -159,6 +161,7 @@ We will perform the test and store the results in `chisq_results`
 chisq_results <- chisq.test(cont_table, correct = FALSE)
 
 chisq_results
+#TODO: prettify the results using janitor (?)
 ```
 
 sd
