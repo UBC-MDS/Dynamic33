@@ -20,11 +20,11 @@ The analysis involves processing and visualizing data related to tree heights in
    git clone https://github.com/username/repo-name.git
 
 ## Dependencies
-  tidyverse
-  janitor
-  ggplot2
+  tidyverse,
+  janitor,
+  ggplot2,
   knitr
 
 ## The names of the License 
- MIT license
+ MIT license,
  Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license
