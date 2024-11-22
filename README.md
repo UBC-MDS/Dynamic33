@@ -6,7 +6,7 @@ This project explores the geographic distribution of tree heights across Vancouv
 - Derek Rogers
 - Gunisha Kaur
 - Jessie Zhang
-- Zhang He
+- Zheng He
 ## Summary
 The analysis involves processing and visualizing data related to tree heights in Vancouver. The goal is to identify patterns that may inform urban planning, environmental studies, or conservation efforts.
 ## How to Run the Analysis
