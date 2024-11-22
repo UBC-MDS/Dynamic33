@@ -45,11 +45,27 @@ head(trees)
 
 ### Cleaning the Data
 
-We are only interested in neighbourhood names and tree heights, so we should make sure there are no missing values in these columns
+In our analysis, we are primarily interested in the NEIGHBOURHOOD_NAME, HEIGHT_RANGE, and HEIGHT_RANGE_ID columns, so it is crucial to ensure that there are no missing values in these columns to maintain the accuracy and reliability of our statistical results. Upon checking, we confirmed that none of these three columns contain any missing data.   
+
+Additionally, we examined the entire dataset for duplicate records using the unique identifier TREE_ID and confirmed that there are no duplicate rows. This step ensures that no records are inadvertently counted multiple times.
 
 ```{r}
-str(trees) # maybe we don't use this
-# look at NEIGHBOURHOOD_NAME, HEIGHT_RANGE, HEIGHT_RANGE_ID
+# str(trees) # maybe we don't use this
+# Check for missing data in NEIGHBOURHOOD_NAME, HEIGHT_RANGE, HEIGHT_RANGE_ID columns
+missing_data_check <- trees |>
+  summarise(
+    NEIGHBOURHOOD_NAME_missing = sum(is.na(NEIGHBOURHOOD_NAME)),
+    HEIGHT_RANGE_missing = sum(is.na(HEIGHT_RANGE)),
+    HEIGHT_RANGE_ID_missing = sum(is.na(HEIGHT_RANGE_ID))
+  )
+print(missing_data_check) # no missing data in the columns of interest
+
+# Check for duplicates in data set
+duplicate_count <- trees |>
+  select(TREE_ID) |>
+  duplicated() |>
+  sum()
+print(paste("Number of duplicate records:", duplicate_count)) # no duplicated records
 ```
 
 ### Exploratory Data Analysis
