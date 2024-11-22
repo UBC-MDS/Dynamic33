@@ -168,7 +168,13 @@ sd
 
 ## Discussion
 
-sd
+From the plot, we observed the RENFREW-COLLINGWOOD neighborhood has the darkest color among others indicating the highest concentration of trees for the shortest trees, following by neighborhood like HASTINGS-SUNRISE, KENSINGTON-CEDAR COTTAGE, VICTORIA-FRASERVIEW and SUNSET.
+
+Regarding the tree heights, we know RENFREW-COLLINGWOOD has the most shortest trees and DOWNTOWN has the most tallest trees. The most common tree height range across neighborhoods appears to be around 1 to 3 units. This indicates that the urban tree population is dominated by younger or medium size trees. The height range from 6 to 10 trees have very few to none across all neighborhoods, this shows limited space for trees to grow tall due to urban constraints. In terms of the tree management, neighborhoods like DOWNTOWN and FAIRVIEW have very light color across the tree height range suggesting the trees are limited to plant in the urban spaces. Neighborhoods like non-urban area DUNBAR-SOUTHLANDS and ARBUTUS RIDGE also has very light color across the tree height range suggesting there are potential lands or space for government to plant more trees in neighborhoods. In terms of the ecological impact, the neighborhoods with more trees like RENFREW-COLLINGWOOD will have the most benefits on environment. The trees that have height range from 1 to 3 units are potentially young trees suggesting it might need better care to grow.
+
+Overall, the insights from the data suggest we need to target urban area like DOWNTOWN and FAIRVIEW for urban greening initiatives. Growing tall trees are urgently needed across all neighborhoods for the long term sustainability of the environment.
+
+### 
 
 ## References
 
