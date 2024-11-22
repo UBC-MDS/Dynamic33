@@ -62,55 +62,50 @@ str(trees) # maybe we don't use this
 
 The columns of interest are:
 
-1\. `NEIGHBOURHOOD_NAME` (explanatory/treatment variable) - A string representing the neighbourhood the tree is in
+1.  `NEIGHBOURHOOD_NAME` (explanatory/treatment variable) - A string representing the neighbourhood the tree is in
 
-2\. Tree height data (the outcome/response variable) is represented in two columns, in two different formats:
+2.  Tree height data (the outcome/response variable) is represented in two columns, in different formats:
 
-\- `HEIGHT_RANGE` - a string representing tree heights (categorical levels) in buckets of 10ft, e.g. `0' - 10'`, `10' - 20'`, etc.
+    1.  `HEIGHT_RANGE` - a string representing tree heights (categorical levels) in buckets of 10ft, e.g. `0' - 10'`, `10' - 20'`, etc.
 
-\- `HEIGHT_RANGE_ID` - a numeric column (integers) representing levels of the above strings
+    2.  `HEIGHT_RANGE_ID` - a numeric column (integers) with levels corresponding to the above strings
 
-First, we should examine the levels of the two available versions of the treatment categorical variable we could choose one that will simplify our subsequent analysis.
+First, we should examine the levels of the two available versions of the response categorical variable (height), because we may be able to choose one that will simplify our subsequent analysis.
 
-Based on the data, it looks like there should be a one-to-one correspondence between levels of `HEIGHT_RANGE` and `HEIGHT_RANGE_ID`, but we should confirm this. To do this, we can look at all unique combinations of the two variables. If they properly correspond (there are no issues with the data), we should see only one row for each.
+Based on the data, it looks like there should be a one-to-one correspondence between levels of `HEIGHT_RANGE` and `HEIGHT_RANGE_ID`, but we should confirm this. To do this, we can look at all unique combinations of the two variables. If they properly correspond (there are no issues with the data), we should see only one row for each. We will print the results using `kable()` (from the `knitr` package).
 
 ```{r}
 unique_combinations <- trees |> 
   distinct(HEIGHT_RANGE, HEIGHT_RANGE_ID) |> 
   arrange(HEIGHT_RANGE_ID)
 
-unique_combinations |> kable()
-#TODO: add figure titles to this (in the kable code) and others
-
+unique_combinations |>
+  kable(caption = "Mapping between tree height category names and their IDs.")
 ```
 
-It looks like there is proper correspondence between levels of these two variables. Since the levels of `HEIGHT_RANGE_ID` are simpler and shorter, we will use this variable, which should make our plots easier to display.
+It looks like there is a proper correspondence between the levels of these two variables. Since the levels of `HEIGHT_RANGE_ID` are simpler and shorter, we will use this variable. This should make our plots easier to display.
 
-Now we can select only the treatment and response variable columns and convert them to type `factor`. Then, we can display the con
+Now we can select only the treatment and response variable columns and convert them to type `factor`, which will allow us to build a contingency table.
 
 ```{r}
 trees_subset <- trees |> 
   select(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID) |> 
   mutate(across(everything(), as.factor))
 
-trees_subset
+head(trees_subset)
 ```
 
-Now, the `trees` tibble contains a row per tree, with only the columns `HEIGHT_RANGE` and `HEIGHT_RANGE_ID`.
-
-Generate a contingency table and print it using `kable()`
-
-NOTE TO SELF: add figure captions and for the one below, refer to the tibble above
+The new `trees_subset` dataframe contains one row per tree, with only the columns `NEIGHBOURHOOD_NAME` and `HEIGHT_RANGE_ID`. We can use this along with the `tabyl()` function from the `janitor` package to generate a contingency table. We will then print the contingency table using `kable()`.
 
 ```{r}
 cont_table <- trees_subset |> 
   tabyl(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID)
 
 cont_table |> 
-  kable()
+  kable(caption = "Contingency table showing counts of trees in various levels of the tree height variable per levels of the neighbourhood variable. For a mapping of tree height category names, refer to Table 1.")
 ```
 
-In order to better understand patterns in this data, we can visualize the above contingency table as a 2-dimensional histogram (a.k.a heat map):
+In order to better understand patterns in this data, we can visualize the above contingency table as a two-dimensional histogram (a.k.a heat map):
 
 ```{r}
 heatmap_data <- cont_table |> 
@@ -120,15 +115,19 @@ heatmap_data <- cont_table |>
     values_to = "Tree_Count"
   ) |> 
   mutate(
-    HEIGHT_RANGE_ID = factor(HEIGHT_RANGE_ID, levels = as.character(0:10))
+    HEIGHT_RANGE_ID = factor(HEIGHT_RANGE_ID,
+                             levels = as.character(0:10))
   )
 
-ggplot(heatmap_data, aes(x = HEIGHT_RANGE_ID, y = NEIGHBOURHOOD_NAME, fill = Tree_Count)) +
+ggplot(heatmap_data, aes(x = HEIGHT_RANGE_ID,
+                         y = NEIGHBOURHOOD_NAME,
+                         fill = Tree_Count)) +
   geom_tile() +
-  scale_fill_gradient(low = "white", high = "blue") +
+  scale_fill_gradient(low = "white",
+                      high = "blue") +
   labs(
-    title = "Tree Distribution by Neighbourhood and Height Range",
-    x = "Height Range",
+    title = "Figure 1: Tree Height Distribution by Neighbourhood",
+    x = "Height Category ID",
     y = "Neighbourhood",
     fill = "Tree Count"
   ) +
@@ -136,41 +135,44 @@ ggplot(heatmap_data, aes(x = HEIGHT_RANGE_ID, y = NEIGHBOURHOOD_NAME, fill = Tre
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-From the plot, it looks like there may be some significant differences in tree heights across neighbourhoods. In particular:
+From the plot, it looks like there may be some differences in tree heights across neighbourhoods. In particular:
 
--   sd
+-   RENFREW-COLLINGWOOD has, by a large margin, the most trees in the 10’ - 20’ height category (ID 1)
 
--   sd
+-   VICTORIA-FRASERVIEW, SUNSET, RENFREW-COLLINGWOOD, KENSINGTON-CEDAR COTTAGE, and HASTINGS-SUNRISE seem to have more trees in the lower height categories (1-4) than other neighbourhoods.
+
+-   SHAUGHNESSY and DOWNTOWN seem to have the tallest trees.
 
 ### Statistical Test
 
-is it statistically significant?
+Although there are some visually identifiable patterns, we can only determine whether there are statistically significant differences in tree heights per neighbourhood using an appropriate test.
 
-#### Choosing the Appropriate Test
+#### Choosing a Test and Significance Level
 
-Because we are dealing with two categorical variables each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate
+Because we are dealing with two categorical variables, each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate.
 
 The Chi-squared test makes the following assumptions:
 
 1.  The observations are independent.
-2.  The expected counts are sufficiently large (greater than 5 is the typical standard).
+2.  The expected counts are large enough (greater than 5 is typical).
 
-For assumption 1, . For assumption 2, .
+First, the height measurement of a particular tree does not depend on that of another, so we can assume independence. Second almost every intersection of the contingency table has counts much larger than 5, with many in the hundreds or thousands.
 
-Because these assumptions do not appear to be violated, it is safe to proceed with a Chi-squared test of independence.
+Because neither of the test's two key assumptions appear to be violated, it is safe to proceed with a Chi-squared test of independence.
 
-#### Performing Chi-squared Test of Independence
+Finally, we will choose the standard significance level of $\alpha = 0.05$ as our threshold for determining statistical significance.
 
-We will perform the test and store the results in `chisq_results`
+#### Performing a Chi-squared Test of Independence
+
+We will perform the test, store the results in `chisq_results`, and display them.
 
 ```{r}
 chisq_results <- chisq.test(cont_table, correct = FALSE)
 
 chisq_results
-#TODO: prettify the results using janitor (?)
 ```
 
-sd
+The Chi-squared test yielded a statistically significant result, with a test statistic of $X^2 = 15339$ and $p < 2.2 \times 10^{-16}$, which is less than our predefined significance level of 0.05.
 
 ## Discussion
 
