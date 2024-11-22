@@ -25,6 +25,6 @@ The analysis involves processing and visualizing data related to tree heights in
   ggplot2,
   knitr
 
-## The names of the License 
+## Licenses
  MIT license,
  Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license
