@@ -21,7 +21,7 @@ We aim to analyze the relationship between tree height distribution and neighbor
 
 Urban trees are essential to creating livable cities, offering ecological, aesthetic, and health benefits. They improve air quality, provide shade, support biodiversity, and enhance the overall urban environment. In Vancouver, street trees play a vital role in the city’s commitment to sustainability. However, the characteristics of these trees, such as their heights, can vary significantly across neighborhoods due to factors like local urban planning, soil quality, and maintenance practices. Understanding these patterns is key to equitable urban forestry management and informed decision-making.
 
-This project explores the relationship between **tree height distribution** and **neighborhoods** in Vancouver. Using data from the [City of Vancouver Open Data Portal](https://opendata.vancouver.ca/explore/dataset/street-trees/information/?disjunctive.species_name&disjunctive.common_name&disjunctive.on_street&disjunctive.neighbourhood_name), we seek to answer the question: **Do tree heights vary significantly between neighborhoods?**
+This project explores the relationship between **tree height distribution** and **neighborhoods** in Vancouver. Using data from the [City of Vancouver Open Data Portal](https://opendata.vancouver.ca/explore/dataset/street-trees/information/?disjunctive.species_name&disjunctive.common_name&disjunctive.on_street&disjunctive.neighbourhood_name)
 
 To address this, we analyze the dataset through a combination of:
 
@@ -29,7 +29,7 @@ To address this, we analyze the dataset through a combination of:
 
 2.  **Statistical Testing:** A Chi-squared test of independence is performed to determine if the observed variations in tree height distributions are statistically significant.
 
-By uncovering these patterns, this analysis contributes to urban forestry strategies that aim to distribute greenery benefits equitably across neighborhoods. The findings could help guide future decisions in tree planting, maintenance, and sustainable urban planning.
+By uncovering these patterns, this analysis contributes to urban forestry strategies that aim to distribute greenery benefits equitably across neighborhoods in Vancouver. The findings could help guide future decisions in tree planting, maintenance, and sustainable urban planning.
 
 ## Methods and Results
 
