@@ -156,7 +156,7 @@ The Chi-squared test makes the following assumptions:
 1.  The observations are independent.
 2.  The expected counts are large enough (greater than 5 is typical).
 
-First, the height measurement of a particular tree does not depend on that of another, so we can assume independence. Second almost every intersection of the contingency table has counts much larger than 5, with many in the hundreds or thousands.
+First, the height measurement of a particular tree does not depend on that of another, so we can assume independence. Second, almost every intersection of the contingency table has counts much larger than 5, with many in the hundreds or thousands.
 
 Because neither of the test's two key assumptions appear to be violated, it is safe to proceed with a Chi-squared test of independence.
 
