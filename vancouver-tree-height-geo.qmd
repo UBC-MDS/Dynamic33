@@ -1,15 +1,15 @@
 ---
-title: "Vancouver Tree Height Geography"
+title: "Vancouver Tree Height Geography Analysis"
 author: "DSCI 522, Group 33"
 date: "`r Sys.Date()`"
-output: pdf_document
+format: pdf
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Vancouver Tree Height Geography
+# Vancouver Tree Height Geography Analysis
 
 ## Summary
 
