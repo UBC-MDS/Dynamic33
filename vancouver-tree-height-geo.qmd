@@ -9,7 +9,7 @@ format: pdf
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Vancouver Tree Height Geography
+# Vancouver Tree Height Geography Analysis
 
 ## Summary
 
