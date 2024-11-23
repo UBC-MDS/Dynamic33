@@ -31,6 +31,8 @@ To address this, we analyze the dataset through a combination of:
 
 By uncovering these patterns, this analysis contributes to urban forestry strategies that aim to distribute greenery benefits equitably across neighborhoods in Vancouver. The findings could help guide future decisions in tree planting, maintenance, and sustainable urban planning.
 
+\newpage
+
 ## Methods and Results
 
 ### Loading Required Packages
@@ -51,7 +53,7 @@ head(trees)
 
 ### Cleaning the Data
 
-In our analysis, we are primarily interested in the NEIGHBOURHOOD_NAME, HEIGHT_RANGE, and HEIGHT_RANGE_ID columns, so it is crucial to ensure that there are no missing values in these columns to maintain the accuracy and reliability of our statistical results. Upon checking, we confirmed that none of these three columns contain any missing data.   
+In our analysis, we are primarily interested in the NEIGHBOURHOOD_NAME, HEIGHT_RANGE, and HEIGHT_RANGE_ID columns, so it is crucial to ensure that there are no missing values in these columns to maintain the accuracy and reliability of our statistical results. Upon checking, we confirmed that none of these three columns contain any missing data.
 
 Additionally, we examined the entire dataset for duplicate records using the unique identifier TREE_ID and confirmed that there are no duplicate rows. This step ensures that no records are inadvertently counted multiple times.
 
@@ -189,6 +191,8 @@ chisq_results
 ```
 
 The Chi-squared test yielded a statistically significant result, with a test statistic of $X^2 = 15339$ and $p < 2.2 \times 10^{-16}$, which is less than our predefined significance level of 0.05.
+
+\newpage
 
 ## Discussion
 
