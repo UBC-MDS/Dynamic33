@@ -1,8 +1,8 @@
 ---
-title: "Vancouver Tree Height Geography"
+title: "Vancouver Tree Height Geography Analysis"
 author: "DSCI 522, Group 33"
 date: "`r Sys.Date()`"
-output: pdf_document
+format: pdf
 ---
 
 ```{r setup, include=FALSE}
