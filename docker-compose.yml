@@ -1,0 +1,10 @@
+services:
+  analysis-env:
+    build: .
+    ports:
+      - "8787:8787"
+    volumes:
+      - .:/home/rstudio
+    environment:
+      PASSWORD: Dynamic33
+    container_name: dynamic33
