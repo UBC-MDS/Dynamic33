@@ -21,14 +21,21 @@ Visit the [repository on GitHub](https://github.com/UBC-MDS/Dynamic33) and clone
    git clone [YOUR SSH URL HERE]
   ```
 
-2. **Start the `dynamic33` Docker Image**
+2. **Build the `dynamic33` Docker Image**
 
 In your terminal, `cd` into the project directory and run
+  ```bash
+   docker build --platform=linux/amd64 --tag dynamic33 .
+  ```
+
+3. **Start the `dynamic33` Docker Image**
+
+In your terminal, run
   ```bash
    docker compose up
   ```
 
-3. **Open RStudio**
+4. **Open RStudio**
 
 Connect to the instance of RStudio that is running in the container by visiting <http://localhost:8787/>. Log in using these credentials:
 ```
@@ -36,11 +43,11 @@ Username: rstudio
 Password: Dynamic33
 ```
 
-4. **Run the Analysis Code**
+5. **Run the Analysis Code**
 
 In RStudio, open `vancouver-tree-height-geo.qmd` and run all code chunks.
 
-5. **Render the PDF**
+6. **Render the PDF**
 
 Render the quarto document to a PDF using the `Render` button in RStudio.
 
