@@ -42,16 +42,55 @@ library(tidyverse)
 library(janitor)
 library(ggplot2)
 library(knitr)
+library(stringr)
+library(testthat)
 ```
 
-### Loading the Data
+### Data Validation and Loading the Data
+```{r}
+# Check for correct data file format
+if (str_detect("data/street-trees.csv", "\\.csv$")) {
+  print("File format is in the correct format")
+  trees <- read_csv2("data/street-trees.csv")
+} else {
+  stop("File format is not correct. Please make sure the file format is in CSV.")
+}
+
+# Check for correct column names for analysis
+columns_to_use <- c("NEIGHBOURHOOD_NAME", "HEIGHT_RANGE", "HEIGHT_RANGE_ID")
+if (all(columns_to_use %in% colnames(trees))) {
+  print("All expected columns exist in the dataframe.")
+} else {
+  missing_columns <- setdiff(columns_to_use, colnames(data))
+  stop(paste("The following expected columns are missing:", paste(missing_columns, collapse = ", ")))
+}
+
+# Check for no empty observations
+missing_data_check <- trees |>
+  summarise(
+    NEIGHBOURHOOD_NAME_missing = sum(is.na(NEIGHBOURHOOD_NAME)),
+    HEIGHT_RANGE_missing = sum(is.na(HEIGHT_RANGE)),
+    HEIGHT_RANGE_ID_missing = sum(is.na(HEIGHT_RANGE_ID))
+  )
+print(missing_data_check) 
+
+if (any(missing_data_check > 0)) {
+  print("There are missing or empty observations in the columns for use. Please review the data.")
+} else {
+  print("All specified columns have complete observations with no missing or empty values.")
+}
+
+# Missingness not beyond expected threshold: In our statistical analysis, no missing data is allowed. So if any missing data is detected in your check, the data must be reviewed and corrected before proceeding to the analysis.
+
+```
+
+### Reading the Data
 
 ```{r}
-trees <- read_csv2("data/street-trees.csv")
 head(trees)
 ```
 
-### Cleaning the Data
+### Cleaning the Data (To be deleted)
 
 In our analysis, we are primarily interested in the NEIGHBOURHOOD_NAME, HEIGHT_RANGE, and HEIGHT_RANGE_ID columns, so it is crucial to ensure that there are no missing values in these columns to maintain the accuracy and reliability of our statistical results. Upon checking, we confirmed that none of these three columns contain any missing data.
 
