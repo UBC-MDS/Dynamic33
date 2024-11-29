@@ -42,38 +42,168 @@ library(tidyverse)
 library(janitor)
 library(ggplot2)
 library(knitr)
+library(stringr)
+library(testthat)
 ```
 
-### Loading the Data
+### Data Validation and Loading the Data
+
+In our analysis, we primarily interested in the `NEIGHBOURHOOD_NAME`, `HEIGHT_RANGE`, and `HEIGHT_RANGE_ID` columns. To ensure the data is presented in a ready-for-use manner, we validate these columns by confirming their presence, correct naming, and completeness, maintaining the accuracy and reliability of our statistical results. The specific checks include:
+
+Check for correct data file format:
 
 ```{r}
-trees <- read_csv2("data/street-trees.csv")
-head(trees)
+if (str_detect("data/street-trees.csv", "\\.csv$")) {
+  print("File format is in the correct format")
+  trees <- read_csv2("data/street-trees.csv")
+} else {
+  stop("File format is not correct. Please make sure the file format is in CSV.")
+}
 ```
 
-### Cleaning the Data
-
-In our analysis, we are primarily interested in the NEIGHBOURHOOD_NAME, HEIGHT_RANGE, and HEIGHT_RANGE_ID columns, so it is crucial to ensure that there are no missing values in these columns to maintain the accuracy and reliability of our statistical results. Upon checking, we confirmed that none of these three columns contain any missing data.
-
-Additionally, we examined the entire dataset for duplicate records using the unique identifier TREE_ID and confirmed that there are no duplicate rows. This step ensures that no records are inadvertently counted multiple times.
+Check for correct column names for analysis
 
 ```{r}
-# str(trees) # maybe we don't use this
-# Check for missing data in NEIGHBOURHOOD_NAME, HEIGHT_RANGE, HEIGHT_RANGE_ID columns
+columns_to_use <- c("NEIGHBOURHOOD_NAME", "HEIGHT_RANGE", "HEIGHT_RANGE_ID")
+if (all(columns_to_use %in% colnames(trees))) {
+  print("All expected columns exist in the dataframe, with the correct names.")
+} else {
+  missing_columns <- setdiff(columns_to_use, colnames(data))
+  stop(paste("The following expected columns are missing:", paste(missing_columns, collapse = ", ")))
+}
+```
+
+Check for no empty observations
+
+```{r}
 missing_data_check <- trees |>
   summarise(
     NEIGHBOURHOOD_NAME_missing = sum(is.na(NEIGHBOURHOOD_NAME)),
     HEIGHT_RANGE_missing = sum(is.na(HEIGHT_RANGE)),
     HEIGHT_RANGE_ID_missing = sum(is.na(HEIGHT_RANGE_ID))
   )
-print(missing_data_check) # no missing data in the columns of interest
 
-# Check for duplicates in data set
-duplicate_count <- trees |>
-  select(TREE_ID) |>
-  duplicated() |>
-  sum()
-print(paste("Number of duplicate records:", duplicate_count)) # no duplicated records
+if (any(missing_data_check > 0)) {
+  print("There are missing or empty observations in the columns for use. Please review the data.")
+} else {
+  print("All specified columns have complete observations with no missing or empty values.")
+}
+```
+
+Check for missingness not beyond expected threshold\
+In our statistical analysis, no missing data is allowed. So if any missing data is detected in your check, the data must be reviewed and corrected before proceeding to the analysis.
+
+Check for data types in each column
+
+```{r}
+# Define a helper function to handle messages for expect functions
+safe_expect <- function(expect_fn, message) {
+  tryCatch(
+    {
+      expect_fn
+      cat(message, "\n")  # Print success message
+    },
+    error = function(e) {
+      stop(e)  # If there's an error, propagate it
+    }
+  )
+}
+
+safe_expect(expect_type(trees$NEIGHBOURHOOD_NAME, "character"), "Congrats! NEIGHBOURHOOD_NAME is the correct type (character).")
+safe_expect(expect_type(trees$HEIGHT_RANGE_ID, "double"), "Congrats! HEIGHT_RANGE_ID is the correct type (double).")
+safe_expect(expect_type(trees$HEIGHT_RANGE, "character"), "Congrats! HEIGHT_RANGE is the correct type (character).")
+```
+
+Check for No duplicate observations\
+Based on the data shown, each combination of `NEIGHBOURHOOD_NAME`, `HEIGHT_RANGE_ID`, and `HEIGHT_RANGE` appears consistent with expected categorizations, so there is no need to check for duplicates in these columns.
+
+Check for the correct category levels
+
+```{r}
+# Check for unexpected levels in NEIGHBOURHOOD_NAME
+if (any(is.na(trees$NEIGHBOURHOOD_NAME))) {
+  print("Warning: Missing values found in NEIGHBOURHOOD_NAME")
+}
+if (length(unique(trees$NEIGHBOURHOOD_NAME)) == 1) {
+  print("Warning: NEIGHBOURHOOD_NAME has only one unique value")
+}
+# Check for consistent HEIGHT_RANGE and HEIGHT_RANGE_ID combinations
+unique_combinations <- trees |> distinct(HEIGHT_RANGE, HEIGHT_RANGE_ID)
+if (nrow(unique_combinations) != n_distinct(trees$HEIGHT_RANGE)) {
+  print("Warning: Inconsistent mappings between HEIGHT_RANGE and HEIGHT_RANGE_ID")
+} 
+```
+
+Check for the correct category levels
+
+```{r}
+# Check for unexpected levels in NEIGHBOURHOOD_NAME
+if (any(is.na(trees$NEIGHBOURHOOD_NAME))) {
+  print("Warning: Missing values found in NEIGHBOURHOOD_NAME")
+}
+if (length(unique(trees$NEIGHBOURHOOD_NAME)) == 1) {
+  print("Warning: NEIGHBOURHOOD_NAME has only one unique value")
+}
+# Check for consistent HEIGHT_RANGE and HEIGHT_RANGE_ID combinations
+unique_combinations <- trees |> distinct(HEIGHT_RANGE, HEIGHT_RANGE_ID)
+if (nrow(unique_combinations) != n_distinct(trees$HEIGHT_RANGE)) {
+  print("Warning: Inconsistent mappings between HEIGHT_RANGE and HEIGHT_RANGE_ID")
+} 
+```
+
+Check for no outlier or anomalous values
+
+```{r}
+# Step 1: Count the number of trees (rows) per HEIGHT_RANGE_ID level
+height_range_counts <- trees %>%
+  group_by(HEIGHT_RANGE_ID) %>%
+  summarise(count = n())
+height_range_counts
+
+# Step 2: Calculate the IQR and outlier bounds for the counts
+iqr <- IQR(height_range_counts$count, na.rm = TRUE)
+q1 <- quantile(height_range_counts$count, 0.25, na.rm = TRUE)
+q3 <- quantile(height_range_counts$count, 0.75, na.rm = TRUE)
+lower_bound <- q1 - 1.5 * iqr
+upper_bound <- q3 + 1.5 * iqr
+lower_bound
+upper_bound
+
+# Step 3: Identify outliers
+outliers <- height_range_counts %>%
+  filter(count < lower_bound | count > upper_bound)
+
+# Step 4: Check and print outliers
+if (nrow(outliers) > 0) {
+  print("Outliers detected in HEIGHT_RANGE_ID levels:")
+  print(outliers)
+} else {
+  print("No outliers detected in HEIGHT_RANGE_ID levels.")
+}
+
+#  Visualize the counts using a bar plot
+library(ggplot2)
+ggplot(height_range_counts, aes(x = HEIGHT_RANGE_ID, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  geom_point(data = outliers, aes(x = HEIGHT_RANGE_ID, y = count), color = "red", size = 3) +
+  labs(title = "Tree Count per HEIGHT_RANGE_ID Level", x = "HEIGHT_RANGE_ID", y = "Count of Trees") +
+  theme_minimal()
+```
+
+Check for whether response variable follows expected distribution\
+The violin plot below shows the distribution of tree counts across different height ranges. It combines a boxplot and a smoothed density curve. The width of each "violin" indicates how many trees fall into each height range where wider areas mean more trees. It helps to see if certain height ranges have many or few trees and whether there are any unusual patterns or imbalances in the data. This can highlight areas where the data might be incorrect or need further investigation.
+
+```{r}
+ggplot(trees, aes(x = "trees", y = HEIGHT_RANGE_ID)) +
+  geom_violin(fill = "skyblue", color = "black") +
+  labs(title = "Violin Plot of HEIGHT_RANGE_ID", x = "", y = "Height Range ID") +
+  theme_minimal() 
+```
+
+### Reading the Data
+
+```{r}
+head(trees)
 ```
 
 ### Exploratory Data Analysis
