@@ -16,12 +16,12 @@ This analysis involves processing, visualizing, and running a statistical test o
 
 1. **Clone the Repository**
 
-Visit the [repository on GitHub](https://github.com/derekrodgers/dsci522-dockerfile-practice) and clone it locally:
+Visit the [repository on GitHub](https://github.com/UBC-MDS/Dynamic33) and clone it locally:
   ```bash
    git clone [YOUR SSH URL HERE]
   ```
 
-2. **Start the `dynamic33` Docker image**
+2. **Start the `dynamic33` Docker Image**
 
 In your terminal, `cd` into the project directory and run
   ```bash
