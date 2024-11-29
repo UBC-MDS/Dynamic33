@@ -47,6 +47,9 @@ library(testthat)
 ```
 
 ### Data Validation and Loading the Data
+
+In our analysis, we primarily interested in the `NEIGHBOURHOOD_NAME`, `HEIGHT_RANGE`, and `HEIGHT_RANGE_ID` columns. To ensure the data is presented in a ready-for-use manner, we validate these columns by confirming their presence, correct naming, and completeness, maintaining the accuracy and reliability of our statistical results.
+
 ```{r}
 # Check for correct data file format
 if (str_detect("data/street-trees.csv", "\\.csv$")) {
@@ -59,7 +62,7 @@ if (str_detect("data/street-trees.csv", "\\.csv$")) {
 # Check for correct column names for analysis
 columns_to_use <- c("NEIGHBOURHOOD_NAME", "HEIGHT_RANGE", "HEIGHT_RANGE_ID")
 if (all(columns_to_use %in% colnames(trees))) {
-  print("All expected columns exist in the dataframe.")
+  print("All expected columns exist in the dataframe, with the correct names.")
 } else {
   missing_columns <- setdiff(columns_to_use, colnames(data))
   stop(paste("The following expected columns are missing:", paste(missing_columns, collapse = ", ")))
@@ -72,7 +75,6 @@ missing_data_check <- trees |>
     HEIGHT_RANGE_missing = sum(is.na(HEIGHT_RANGE)),
     HEIGHT_RANGE_ID_missing = sum(is.na(HEIGHT_RANGE_ID))
   )
-print(missing_data_check) 
 
 if (any(missing_data_check > 0)) {
   print("There are missing or empty observations in the columns for use. Please review the data.")
@@ -82,37 +84,54 @@ if (any(missing_data_check > 0)) {
 
 # Missingness not beyond expected threshold: In our statistical analysis, no missing data is allowed. So if any missing data is detected in your check, the data must be reviewed and corrected before proceeding to the analysis.
 
+# Define a helper function to handle messages for expect functions
+safe_expect <- function(expect_fn, message) {
+  tryCatch(
+    {
+      expect_fn
+      cat(message, "\n")  # Print success message
+    },
+    error = function(e) {
+      stop(e)  # If there's an error, propagate it
+    }
+  )
+}
+
+# Check for correct data types in each column
+safe_expect(expect_type(trees$NEIGHBOURHOOD_NAME, "character"), "Congrats! NEIGHBOURHOOD_NAME is the correct type (character).")
+safe_expect(expect_type(trees$HEIGHT_RANGE_ID, "double"), "Congrats! HEIGHT_RANGE_ID is the correct type (double).")
+safe_expect(expect_type(trees$HEIGHT_RANGE, "character"), "Congrats! HEIGHT_RANGE is the correct type (character).")
+# Based on the data shown, each combination of NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID, and HEIGHT_RANGE appears consistent with expected categorizations, so there is no need to check for duplicates in these columns.
+
+# Check outlier or anomalies
+# Check NEIGHBOURHOOD_NAME
+valid_neighbourhoods <- trees$NEIGHBOURHOOD_NAME
+safe_expect(
+  expect_true(all(trees$NEIGHBOURHOOD_NAME %in% valid_neighbourhoods)),
+  "Congrats! There are no anomalies in NEIGHBOURHOOD_NAME."
+)
+
+# Check HEIGHT_RANGE
+valid_height_ranges <- c("0' - 10'", "10' - 20'", "20' - 30'", "30' - 40'", "40' - 50'", "50' - 60'", "60' - 70'", 
+                         "70' - 80'", "80' - 90'", "90' - 100'", "> 100'")
+safe_expect(
+  expect_true(all(trees$HEIGHT_RANGE %in% valid_height_ranges)),
+  "Congrats! There are no anomalies in HEIGHT_RANGE."
+)
+
+# Check HEIGHT_RANGE_ID
+valid_height_range_ids <- 0:(length(valid_height_ranges) - 1)
+safe_expect(
+  expect_true(all(trees$HEIGHT_RANGE_ID %in% valid_height_range_ids)),
+  "Congrats! There are no anomalies in HEIGHT_RANGE_ID."
+)
+
 ```
 
 ### Reading the Data
 
 ```{r}
 head(trees)
-```
-
-### Cleaning the Data (To be deleted)
-
-In our analysis, we are primarily interested in the NEIGHBOURHOOD_NAME, HEIGHT_RANGE, and HEIGHT_RANGE_ID columns, so it is crucial to ensure that there are no missing values in these columns to maintain the accuracy and reliability of our statistical results. Upon checking, we confirmed that none of these three columns contain any missing data.
-
-Additionally, we examined the entire dataset for duplicate records using the unique identifier TREE_ID and confirmed that there are no duplicate rows. This step ensures that no records are inadvertently counted multiple times.
-
-```{r}
-# str(trees) # maybe we don't use this
-# Check for missing data in NEIGHBOURHOOD_NAME, HEIGHT_RANGE, HEIGHT_RANGE_ID columns
-missing_data_check <- trees |>
-  summarise(
-    NEIGHBOURHOOD_NAME_missing = sum(is.na(NEIGHBOURHOOD_NAME)),
-    HEIGHT_RANGE_missing = sum(is.na(HEIGHT_RANGE)),
-    HEIGHT_RANGE_ID_missing = sum(is.na(HEIGHT_RANGE_ID))
-  )
-print(missing_data_check) # no missing data in the columns of interest
-
-# Check for duplicates in data set
-duplicate_count <- trees |>
-  select(TREE_ID) |>
-  duplicated() |>
-  sum()
-print(paste("Number of duplicate records:", duplicate_count)) # no duplicated records
 ```
 
 ### Exploratory Data Analysis
