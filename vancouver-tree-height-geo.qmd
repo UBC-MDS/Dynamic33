@@ -266,7 +266,9 @@ heatmap_data <- cont_table |>
     HEIGHT_RANGE_ID = factor(HEIGHT_RANGE_ID,
                              levels = as.character(0:10))
   )
+```
 
+```{r, fig.width=8, fig.height=4}
 ggplot(heatmap_data, aes(x = HEIGHT_RANGE_ID,
                          y = NEIGHBOURHOOD_NAME,
                          fill = Tree_Count)) +
