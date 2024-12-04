@@ -1,0 +1,40 @@
+## Methods and Results
+
+### Data Download and Extraction
+
+```{r, echo=FALSE, results='asis'}
+# Run download script
+system('Rscript 00_download_data.R --url "https://opendata.vancouver.ca/explore/dataset/street-trees/download" --output "data/street-trees.csv"')
+
+```{r, echo=FALSE, results='asis'}
+# Run cleaning script and display duplicate info
+output <- system('Rscript 01_clean_transform.R --input "data/street-trees.csv" --output "data/cleaned_street_trees.csv"', intern = TRUE)
+cat(output, sep="\n")
+```
+
+
+
+
+```{r, echo=FALSE, results='asis'}
+# Generate EDA artifacts
+output <- system('Rscript 02_eda.R --input "data/cleaned_street_trees.csv" --output_prefix "results/eda"', intern = TRUE)
+cat(output, sep="\n")
+
+# Display heatmap
+![](results/eda_heatmap.png)
+
+# Include the contingency table
+```{r, echo=FALSE, results='asis'}
+read_csv("results/eda_cont_table.csv") %>%
+  kable(caption = "Contingency table of tree height by neighborhood")
+```
+
+
+
+
+### Statistical Test
+
+```{r, echo=FALSE, results='asis'}
+# Run statistical test script
+output <- system('Rscript 03_statistical_test.R --input "data/cleaned_street_trees.csv" --output "results/chisq_test_results.txt"', intern = TRUE)
+cat(output, sep="\n")
