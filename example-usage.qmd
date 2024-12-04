@@ -4,7 +4,7 @@
 
 ```{r, echo=FALSE, results='asis'}
 # Run download script
-system('Rscript 00_download_data.R --url "https://opendata.vancouver.ca/explore/dataset/street-trees/download" --output "data/street-trees.csv"')
+system('Rscript 00_download_data.R --url "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/street-trees/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B" --output "data/street-trees.csv"')
 
 ```{r, echo=FALSE, results='asis'}
 # Run cleaning script and display duplicate info
