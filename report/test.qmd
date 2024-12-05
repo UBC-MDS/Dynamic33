@@ -9,7 +9,7 @@ format:
     code-fold: false # Ensures no code is folded
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
 # Load required libraries
 library(tidyverse)
 library(knitr)
@@ -32,25 +32,25 @@ Rscript scripts/03_stat_analysis.R "results/tables/contingency_table.csv" "resul
 ```
 
 ```bash
-quarto render test.qmd --to pdf
+quarto render report/test.qmd --to pdf
 ```
 
 ```{r load_heatmap, echo=FALSE}
-heatmap_path <- "results/figures/heatmap.png"
+heatmap_path <- "../results/figures/heatmap.png"
 knitr::include_graphics(heatmap_path)
 ```
 
 See Figure @ref(fig:load_heatmap).
 
 ```{r load_contingency_table, echo=FALSE}
-cont_table <- read_csv("results/tables/contingency_table.csv")
+cont_table <- read_csv("../results/tables/contingency_table.csv")
 knitr::kable(cont_table, caption = "Contingency Table")
 ```
 
 Refer to Table @ref(tab:load_contingency_table).
 
 ```{r load_chi_squared, echo=FALSE}
-chisq_results <- readRDS("results/models/chi_squared_results.rds")
+chisq_results <- readRDS("../results/models/chi_squared_results.rds")
 ```
 
 The Chi-squared test result yielded a statistic of `r chisq_results$statistic` with a p-value of `r chisq_results$p.value`.
