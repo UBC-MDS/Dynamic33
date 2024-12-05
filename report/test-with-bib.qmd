@@ -7,7 +7,8 @@ format:
     toc: true        # Enables the table of contents
     toc-depth: 3     # Sets depth for the table of contents
     code-fold: false # Ensures no code is folded
-bibliography: references.bib 
+bibliography: references.bib
+nocite: '@*'
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -56,8 +57,4 @@ chisq_results <- readRDS("../results/models/chi_squared_results.rds")
 
 The Chi-squared test result yielded a statistic of `r chisq_results$statistic` with a p-value of `r chisq_results$p.value`.
 
-
-## references
-
-::: {#refs}
-:::
+## References
