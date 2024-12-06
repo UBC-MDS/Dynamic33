@@ -12,7 +12,24 @@ This project explores the geographic distribution of tree heights across Vancouv
 ## Summary
 This analysis involves processing, visualizing, and running a statistical test on data related to tree heights in Vancouver. The goal is to identify patterns that may inform urban planning, environmental studies, or conservation efforts.
 
-## How to Run the Analysis
+## Report
+The final report can be found
+[here](to_be_updated).
+
+## Dependencies
+The following packages are required by the analysis, and all are installed in the `dynamic33` Docker image:
+- tidyverse
+- janitor
+- ggplot2
+- knitr
+- stringr
+- testthat
+
+## Usage
+
+### Setup
+
+> If you are using Windows or Mac, make sure Docker Desktop is running.
 
 1. **Clone the Repository**
 
@@ -45,20 +62,27 @@ Password: Dynamic33
 
 5. **Run the Analysis Code**
 
-In RStudio, open `vancouver-tree-height-geo.qmd` and run all code chunks.
+open a terminal (from the docker rstudio) and run the following commands:
 
-6. **Render the PDF**
+```
+Rscript scripts/00_download_data.R "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/street-trees/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B" "data/street-trees.csv"
+```
+```
+Rscript scripts/01_validate_data.R "data/street-trees.csv"
+```
+```
+Rscript scripts/02_eda.R "data/street-trees.csv" "results/figures/heatmap.png" "results/tables/contingency_table.csv" "results/tables/level_table.csv"
+```
+```
+Rscript scripts/03_stat_analysis.R "results/tables/contingency_table.csv" "results/models/chi_squared_results.rds"
+```
+```
+quarto render report/test-with-bib.qmd --to pdf
+```
 
-Render the quarto document to a PDF using the `Render` button in RStudio.
+### Clean up
 
-## Dependencies
-The following packages are required by the analysis, and all are installed in the `dynamic33` Docker image:
-- tidyverse
-- janitor
-- ggplot2
-- knitr
-- stringr
-- testthat
+To shut down the container and clean up the resources, type `Cntrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
 
 ## Licenses
 - MIT license
