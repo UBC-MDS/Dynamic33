@@ -65,24 +65,45 @@ Password: Dynamic33
 open a terminal (from the docker rstudio) and run the following commands:
 
 ```
-Rscript scripts/00_download_data.R "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/street-trees/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B" "data/street-trees.csv"
+Rscript scripts/00_download_data.R "https://opendata.vancouver.ca/api/explore \
+/v2.1/catalog/datasets/street-trees/exports/csv?lang=en&timezone= \
+America%2FLos_Angeles&use_labels=true&delimiter=%3B" "data/street-trees.csv"
 ```
 ```
 Rscript scripts/01_validate_data.R "data/street-trees.csv"
 ```
 ```
-Rscript scripts/02_eda.R "data/street-trees.csv" "results/figures/heatmap.png" "results/tables/contingency_table.csv" "results/tables/level_table.csv"
+Rscript scripts/02_eda.R "data/street-trees.csv" "results/figures/heatmap.png" \
+"results/tables/level_table.csv"
 ```
 ```
-Rscript scripts/03_stat_analysis.R "results/tables/contingency_table.csv" "results/models/chi_squared_results.rds"
+Rscript scripts/03_stat_analysis.R "data/street-trees.csv" \
+"results/models/chi_squared_results.rds"
 ```
 ```
-quarto render report/test-with-bib.qmd --to pdf
+quarto render report/vancouver-tree-height-geo.qmd --to html
 ```
 
 ### Clean up
 
 To shut down the container and clean up the resources, type `Cntrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
+
+## Developer notes
+
+### Adding a new dependency
+
+1. Add the dependency to the `Dockerfile` file on a new branch.
+
+2. Re-build the Docker image locally to ensure it builds and runs properly.
+
+3. Push the changes to GitHub. A new Docker
+   image will be built and pushed to Docker Hub automatically.
+   It will be tagged with the SHA for the commit that changed the file.
+
+4. Update the `docker-compose.yml` file on your branch to use the new
+   container image (make sure to update the tag specifically).
+
+5. Send a pull request to merge the changes into the `main` branch. 
 
 ## Licenses
 - MIT license
