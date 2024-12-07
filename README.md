@@ -12,7 +12,20 @@ This project explores the geographic distribution of tree heights across Vancouv
 ## Summary
 This analysis involves processing, visualizing, and running a statistical test on data related to tree heights in Vancouver. The goal is to identify patterns that may inform urban planning, environmental studies, or conservation efforts.
 
-## How to Run the Analysis
+## Dependencies
+The following packages are required by the analysis, and all are installed in the `dynamic33` Docker image:
+- tidyverse
+- janitor
+- ggplot2
+- knitr
+- stringr
+- testthat
+
+## Usage
+
+### Setup
+
+> If you are using Windows or Mac, make sure Docker Desktop is running.
 
 1. **Clone the Repository**
 
@@ -45,20 +58,44 @@ Password: Dynamic33
 
 5. **Run the Analysis Code**
 
-In RStudio, open `vancouver-tree-height-geo.qmd` and run all code chunks.
+Open a terminal (from the docker rstudio) and run the following commands:
 
-6. **Render the PDF**
+```bash
+Rscript scripts/00_download_data.R "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/street-trees/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B" "data/street-trees.csv"
+```
+```bash
+Rscript scripts/01_validate_data.R "data/street-trees.csv"
+```
+```bash
+Rscript scripts/02_eda.R "data/street-trees.csv" "results/figures/heatmap.png" "results/tables/level_table.csv"
+```
+```bash
+Rscript scripts/03_stat_analysis.R "data/street-trees.csv" "results/models/chi_squared_results.rds"
+```
+```bash
+quarto render report/vancouver-tree-height-geo.qmd --to html
+```
 
-Render the quarto document to a PDF using the `Render` button in RStudio.
+### Clean up
 
-## Dependencies
-The following packages are required by the analysis, and all are installed in the `dynamic33` Docker image:
-- tidyverse
-- janitor
-- ggplot2
-- knitr
-- stringr
-- testthat
+To shut down the container and clean up the resources, type `Cntrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
+
+## Developer notes
+
+### Adding a new dependency
+
+1. Add the dependency to the `Dockerfile` file on a new branch.
+
+2. Re-build the Docker image locally to ensure it builds and runs properly.
+
+3. Push the changes to GitHub. A new Docker
+   image will be built and pushed to Docker Hub automatically.
+   It will be tagged with the SHA for the commit that changed the file.
+
+4. Update the `docker-compose.yml` file on your branch to use the new
+   container image (make sure to update the tag specifically).
+
+5. Send a pull request to merge the changes into the `main` branch. 
 
 ## Licenses
 - MIT license
