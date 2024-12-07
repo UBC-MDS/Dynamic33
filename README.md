@@ -58,25 +58,21 @@ Password: Dynamic33
 
 5. **Run the Analysis Code**
 
-open a terminal (from the docker rstudio) and run the following commands:
+Open a terminal (from the docker rstudio) and run the following commands:
 
+```bash
+Rscript scripts/00_download_data.R "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/street-trees/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B" "data/street-trees.csv"
 ```
-Rscript scripts/00_download_data.R "https://opendata.vancouver.ca/api/explore\
-/v2.1/catalog/datasets/street-trees/exports/csv?lang=en&timezone=\
-America%2FLos_Angeles&use_labels=true&delimiter=%3B" "data/street-trees.csv"
-```
-```
+```bash
 Rscript scripts/01_validate_data.R "data/street-trees.csv"
 ```
+```bash
+Rscript scripts/02_eda.R "data/street-trees.csv" "results/figures/heatmap.png" "results/tables/level_table.csv"
 ```
-Rscript scripts/02_eda.R "data/street-trees.csv" "results/figures/heatmap.png"\
-"results/tables/level_table.csv"
+```bash
+Rscript scripts/03_stat_analysis.R "data/street-trees.csv" "results/models/chi_squared_results.rds"
 ```
-```
-Rscript scripts/03_stat_analysis.R "data/street-trees.csv"\
-"results/models/chi_squared_results.rds"
-```
-```
+```bash
 quarto render report/vancouver-tree-height-geo.qmd --to html
 ```
 
