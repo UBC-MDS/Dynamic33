@@ -12,6 +12,11 @@ This project explores the geographic distribution of tree heights across Vancouv
 ## Summary
 This analysis involves processing, visualizing, and running a statistical test on data related to tree heights in Vancouver. The goal is to identify patterns that may inform urban planning, environmental studies, or conservation efforts.
 
+## Report
+
+The final report can be found
+[here](https://ubc-mds.github.io/Dynamic33/report/vancouver-tree-height-geo.html).
+
 ## Dependencies
 The following packages are required by the analysis, and all are installed in the `dynamic33` Docker image:
 - tidyverse
