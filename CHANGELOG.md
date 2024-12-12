@@ -7,7 +7,7 @@ https://github.com/UBC-MDS/data-analysis-review-2024/issues/26#issuecomment-2532
 - Seems there're only 2 steps of data validation -- null check and distinct value check. I guess there should be 11 steps expected.  
    **Working on**:
 - Maybe original environment.yml and lockdown file should also be attached.  
-   **Not applicable**: For R project both the files are not required
+   **Not applicable**: For R project, environment.yml is not required (as it’s specific to Conda). Instead, we have a renv.lock file, which is already included in the container.
 
 # Issues from peer reviews (Akuja, Gilbert)
 https://github.com/UBC-MDS/data-analysis-review-2024/issues/26#issuecomment-2533503286
@@ -24,14 +24,14 @@ https://github.com/UBC-MDS/data-analysis-review-2024/issues/26#issuecomment-2533
 - The team should also state the Null and Alternative hypothesis clearly. If possible have a table on the report that shows the result of the test. This will make it easy for reader of the report to know why you came to the conclusion.  
    **Solved**: Added clear hypothesis statements to our analysis, including both null and alternative hypothesis: https://github.com/UBC-MDS/Dynamic33/commit/70959bd496cf47e866d3e49b45c0fbacb5546b04. For the result part, we already included a clear statement regarding our test statistic and p-value.
 - Please include the environment.yaml file and instructions of how to create the environment in the README incase a person wants to use a local environment.  
-   **Not applicable**: For R project, the environment.yaml file are not required
+   **Not applicable**: For R project, environment.yml is not required (as it’s specific to Conda). Instead, we have a renv.lock file, which is already included in the container.
 
 # Issues from peer reviews (Ikhabi, Sienko)
 https://github.com/UBC-MDS/data-analysis-review-2024/issues/26#issuecomment-2537388923
 
 ## Improvement items for this URL :
 - It would be convenient for someone using the project to download an already built image. Please build the docker image so that it can be downloaded from DockerHub.  
-   **Solved**: We already completed this, and please refer to the README usage section
+   **Solved**: We actually provide both options, both a pre-built image for convenient setup, and the command to build the docker image, so that users can build the image on their own to ensure compatibility with specific system. 
 - Running the Rscript commands manually is tedious and prone to error. Please wrap the steps into one script, if possible, to make it more efficient.  
    **Solved**: We are creating a Makefile this week, so that all the steps will be in one script and become more efficient.
 - For the final report, please indicate the report authors (names) instead of the group.  
