@@ -1,6 +1,6 @@
 ---
 title: "Vancouver Tree Height Geography Analysis"
-author: "DSCI 522, Group 33- Derek Rogers, Gunisha Kaur, Jessie Zhang, Zheng He"
+author: "DSCI 522, Group 33"
 date: "`r Sys.Date()`"
 format:
   html:
@@ -89,7 +89,7 @@ cont_table <- read_csv("../results/tables/contingency_table.csv")
 kable(cont_table)
 ```
 
-In order to better understand patterns in this data, we can use the `ggplot2` package by @ggplot2_pkg to visualize the above contingency table as a two-dimensional histogram, a.k.a heat map (@fig-heatmap).
+In order to better understand patterns in this data, we can use the `ggplot2` package by @ggplot2_pkg to visualize the above contingency table as a two-dimensional histogram, also known as heat map (@fig-heatmap).
 
 ![Heatmap of Tree Height Distribution by Neighbourhood](../results/figures/heatmap.png){#fig-heatmap width="90%"}
 
@@ -107,7 +107,7 @@ Although there are some visually identifiable patterns, we can only determine wh
 
 #### Choosing a Test and Significance Level
 
-Because we are dealing with two categorical variables, each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate.
+Because we are dealing with two categorical variables, each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate (@Chisquaretest).
 
 The Chi-squared test makes the following assumptions:
 
