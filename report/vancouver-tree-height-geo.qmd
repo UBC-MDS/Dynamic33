@@ -1,6 +1,6 @@
 ---
 title: "Vancouver Tree Height Geography Analysis"
-author: "DSCI 522, Group 33"
+author: "DSCI 522, Group 33- Derek Rogers, Gunisha Kaur, Jessie Zhang, Zheng He"
 date: "`r Sys.Date()`"
 format:
   html:
