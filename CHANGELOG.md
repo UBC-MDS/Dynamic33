@@ -17,8 +17,8 @@ https://github.com/UBC-MDS/data-analysis-review-2024/issues/26#issuecomment-2533
    **Solved**: The authors names has been added: https://github.com/UBC-MDS/Dynamic33/commit/0b05023279301b4ecbc18b61be05a95d8b213e23
 - There are very few data validation checks performed on the data. There were supposed to be 11 checks in total. The team can add a few more data validation codes.  
    **Working on**: 
-- There are a few typos such as Latex not rendering properly and hence the text appears in the wrong format. Additionally, in official reporting , the team could avoid using abbreviations such as a.k.a.  
-   **Working on**: For the typos, Replaced informal abbreviations like "a.k.a." with "also known as." 
+- I would suggest not using abbreviations such as a.k.a. in official reporting.  
+   **Solved**: Replaced informal abbreviations like "a.k.a." with "also known as.": https://github.com/UBC-MDS/Dynamic33/commit/6acb477b735dae690323e9a675e27b16bfad91b9 (made commit together with citation link)
 - The team can also include a link to the Chi-squared test, incase someone wants to gain more insights on what the test does other than what has been described by the authors.  
    **Solved**: Added a citation link regarding how to use Chi-squared test in R: https://github.com/UBC-MDS/Dynamic33/commit/6acb477b735dae690323e9a675e27b16bfad91b9
 - The team should also state the Null and Alternative hypothesis clearly. If possible have a table on the report that shows the result of the test. This will make it easy for reader of the report to know why you came to the conclusion.  
