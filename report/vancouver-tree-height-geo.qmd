@@ -109,6 +109,10 @@ Although there are some visually identifiable patterns, we can only determine wh
 
 Because we are dealing with two categorical variables, each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate (@Chisquaretest).
 
+Our hypotheses are:
+**Null Hypothesis ($H_0$)**: The tree height is independent from different neighborhood (no association).
+**Alternative Hypothesis ($H_A$)**: There is a statistically significant association between neighborhood and tree height.
+
 The Chi-squared test makes the following assumptions:
 
 1.  The observations are independent.
