@@ -1,6 +1,6 @@
 ---
 title: "Vancouver Tree Height Geography Analysis"
-author: "DSCI 522, Group 33"
+author: "DSCI 522, Group 33- Derek Rogers, Gunisha Kaur, Jessie Zhang, Zheng He"
 date: "`r Sys.Date()`"
 format:
   html:
@@ -23,11 +23,11 @@ library(knitr)
 
 ## Summary
 
-Our group was interested in answering the question, "Do tree heights vary significantly from neighborhood to neighborhood in Vancouver?"
+Our group explored the question, "Do tree heights vary significantly from neighborhood to neighborhood in Vancouver?" The analysis focused on understanding the relationship between tree height distribution and neighborhoods. Specifically, we examined tree height ranges and their counts across different neighborhoods to assess whether location influences tree height.
 
-We aim to analyze the relationship between tree height distribution and neighborhoods. Specifically, we focus on tree height ranges and their counts in various neighborhoods to determine if tree height is influenced by location.
+The findings revealed a statistically significant effect of neighborhood on tree height. This indicates that tree height is not uniform across Vancouver but varies systematically depending on the neighborhood. Certain neighborhoods were characterized by a higher proportion of taller trees, while others predominantly featured shorter trees. These patterns suggest that factors such as environmental conditions, soil quality, local climate, or urban planning decisions might play a critical role in influencing tree height distribution.
 
-We found a statistically significant effect of neighbourhood on tree height.
+This analysis provides valuable insights that could inform urban forestry management and planning efforts, helping to ensure an equitable distribution of tree-related benefits such as shade, air quality improvement, and aesthetic value across the city.
 
 ## Introduction
 
@@ -89,7 +89,7 @@ cont_table <- read_csv("../results/tables/contingency_table.csv")
 kable(cont_table)
 ```
 
-In order to better understand patterns in this data, we can use the `ggplot2` package by @ggplot2_pkg to visualize the above contingency table as a two-dimensional histogram, a.k.a heat map (@fig-heatmap).
+In order to better understand patterns in this data, we can use the `ggplot2` package by @ggplot2_pkg to visualize the above contingency table as a two-dimensional histogram, also known as heat map (@fig-heatmap).
 
 ![Heatmap of Tree Height Distribution by Neighbourhood](../results/figures/heatmap.png){#fig-heatmap width="90%"}
 
@@ -107,7 +107,11 @@ Although there are some visually identifiable patterns, we can only determine wh
 
 #### Choosing a Test and Significance Level
 
-Because we are dealing with two categorical variables, each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate.
+Because we are dealing with two categorical variables, each with multiple levels, a Chi-squared test of Independence/Homogeneity is appropriate (@Chisquaretest).
+
+Our hypotheses are:  
+**Null Hypothesis ($H_0$)**: The tree height is independent from different neighborhoods (no association).  
+**Alternative Hypothesis ($H_A$)**: There is a statistically significant association between neighborhood and tree height.
 
 The Chi-squared test makes the following assumptions:
 
