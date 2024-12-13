@@ -25,6 +25,7 @@ The following packages are required by the analysis, and all are installed in th
 - knitr
 - stringr
 - testthat
+- docopt
 
 ## Usage
 
