@@ -10,7 +10,7 @@ This project explores the geographic distribution of tree heights across Vancouv
 - Zheng He
 
 ## Summary
-This analysis involves processing, visualizing, and running a statistical test on data related to tree heights in Vancouver. The goal is to identify patterns that may inform urban planning, environmental studies, or conservation efforts.
+The analysis highlights variability in tree heights across Vancouver, driven by environmental and urban factors. It identifies patterns in tree height distributions that may inform urban planning and conservation strategies. A chi-square test revealed significant associations between tree heights and geographic contexts, emphasizing the need for targeted interventions, such as improving soil quality, enhancing irrigation, and integrating more green spaces to support tree health and growth.
 
 ## Report
 
