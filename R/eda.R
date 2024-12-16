@@ -3,18 +3,19 @@ library(janitor)
 
 #' Perform Exploratory Data Analysis (EDA) on Street Tree Data
 #'
-#' This function performs exploratory data analysis by creating a heatmap and a level correspondence table 
+#' This function performs exploratory data analysis by creating a heatmap, a level correspondence table, and a contingency table 
 #' for the provided tree dataset. The outputs are saved to specified files.
 #'
 #' @param input_file A string specifying the path to the input CSV file containing tree data.
 #' @param heatmap_file A string specifying the path to save the generated heatmap PNG file.
 #' @param level_table A string specifying the path to save the level correspondence table CSV file.
+#' @param contingency_table A string specifying the path to save the contingency table CSV file.
 #' 
 #' @return This function does not return an object but saves outputs to files and displays a success message.
 #' @examples
 #' eda("street-trees.csv", "heatmap.png", "level_table.csv")
 #' @export
-eda <- function(input_file, heatmap_file, level_table) {
+eda <- function(input_file, heatmap_file, level_table, contingency_table) {
   # Load data
   data <- read_csv2(input_file)
 
@@ -30,6 +31,8 @@ eda <- function(input_file, heatmap_file, level_table) {
     select(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID) |> 
     mutate(across(everything(), as.factor)) |> 
     tabyl(NEIGHBOURHOOD_NAME, HEIGHT_RANGE_ID)
+
+  write_csv(cont_table, contingency_table) # Save it out for use in the qmd report
 
   # Heatmap
   heatmap_data <- cont_table |> 
@@ -59,5 +62,5 @@ eda <- function(input_file, heatmap_file, level_table) {
 
   ggsave(filename = heatmap_file, plot = heatmap_plot)
 
-  message("Heatmap and level correspondence table saved successfully.")
+  message("Heatmap, level correspondence table, and contingency table saved successfully.")
 }
