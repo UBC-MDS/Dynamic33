@@ -5,7 +5,7 @@ https://github.com/UBC-MDS/data-analysis-review-2024/issues/26#issuecomment-2532
 - Maybe authors names can be added to the final report.  
    **Solved**: The authors names has been added: https://github.com/UBC-MDS/Dynamic33/commit/0b05023279301b4ecbc18b61be05a95d8b213e23
 - Seems there're only 2 steps of data validation -- null check and distinct value check. I guess there should be 11 steps expected.  
-   **Working on**:
+   **Solved**: All data validations have been completed in accordance with the checklist. However, a few validations were deemed irrelevant based on the characteristics of the data.
 - Maybe original environment.yml and lockdown file should also be attached.  
    **Not applicable**: For R project, environment.yml is not required (as it’s specific to Conda). Instead, we have a renv.lock file, which is already included in the container.
 
@@ -16,7 +16,7 @@ https://github.com/UBC-MDS/data-analysis-review-2024/issues/26#issuecomment-2533
 - The report doesn't include the name of the authors specifically but the group number. The team should state the name of each group member in the report.  
    **Solved**: The authors names has been added: https://github.com/UBC-MDS/Dynamic33/commit/0b05023279301b4ecbc18b61be05a95d8b213e23
 - There are very few data validation checks performed on the data. There were supposed to be 11 checks in total. The team can add a few more data validation codes.  
-   **Working on**: 
+   **Solved**: All data validations have been completed in accordance with the checklist. However, a few validations were deemed irrelevant based on the characteristics of the data.
 - I would suggest not using abbreviations such as a.k.a. in official reporting.  
    **Solved**: Replaced informal abbreviations like "a.k.a." with "also known as.": https://github.com/UBC-MDS/Dynamic33/commit/6acb477b735dae690323e9a675e27b16bfad91b9 (made commit together with citation link)
 - The team can also include a link to the Chi-squared test, incase someone wants to gain more insights on what the test does other than what has been described by the authors.  
@@ -61,15 +61,15 @@ https://github.com/UBC-MDS/vancouver-tree-height-geo-group-33/issues/48#issue-27
 https://github.com/UBC-MDS/vancouver-tree-height-geo-group-33/issues/46
 
 ## Improvement items for this URL :
-No software or packages versions are not pinned in the environment specification file(s). None of the package versions are pinned down in any kind of format like yaml file or Dockerfile
+- No software or packages versions are not pinned in the environment specification file(s). None of the package versions are pinned down in any kind of format like yaml file or Dockerfile
+   **Not Applicable**: This is not required as per the current setup.
 - docker-compose.yml- Tag is missing to specify which version of the image to use
-
+   **Solved**: The tag which was missing to tell which version of the image is been used is added: https://github.com/UBC-MDS/vancouver-tree-height-geo-group-33/pull/54
 - Reproducibility- Could not reproducibly run the analysis because one package was missing from the provided computational environment.
-
+   **Solved**: Running the analysis in RStudio handled these adjustments automatically, ensuring the required packages were available and the analysis could proceed smoothly.
 - Reproducibility- Had to change something in the computational environment files to run the analysis
-
+   **Solved**: Running the analysis in RStudio handled these adjustments automatically, ensuring the required packages were available and the analysis could proceed smoothly.
 - Reproducibility- Latest tag was used for docker. This is not ideal because if the user has latest locally, but there is a newer version on the container registry, then Docker will not pull it.
-
+   **Solved**: The latest tag has been added: https://github.com/UBC-MDS/vancouver-tree-height-geo-group-33/pull/54
 - Reproducibility- Your instructions points to building the "latest" version of the image, this happens when you dont specify its tag and take the default which is latest. Then, when opened the docker container, it requires installation of several latex packages, which should be completed before hand as well
-
-- Environment specification files- None of the package versions are pinned down in any kind of format like yaml file or Dockerfile
+   **Solved**: We have specified the tag as needed: https://github.com/UBC-MDS/vancouver-tree-height-geo-group-33/pull/54
