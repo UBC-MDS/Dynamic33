@@ -1,6 +1,6 @@
 services:
   analysis-env:
-    image: dynamic33
+    image: derekrodgers/dynamic33:105e7fa
     ports:
       - "8787:8787"
     volumes:
